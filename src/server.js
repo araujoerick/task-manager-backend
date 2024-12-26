@@ -14,6 +14,24 @@ fastify.get("/tasks", async (request, reply) => {
   return tasks;
 });
 
+fastify.get("/tasks/:id", async (request, reply) => {
+  const { id } = request.params;
+
+  try {
+    const task = await prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!task) {
+      return reply.status(404).send({ error: "Tarefa não encontrada" });
+    }
+
+    return task;
+  } catch (error) {
+    reply.status(500).send({ error: "Erro ao buscar a tarefa" });
+  }
+});
+
 fastify.post("/tasks", async (request, reply) => {
   const { title, description, time, status } = request.body;
   const task = await prisma.task.create({
