@@ -25,6 +25,5 @@ model Task {
 model WaterHydration {
   id        String   @id @default(uuid())
   liters    Float
-  goal      Float
   createdAt DateTime @default(now())
 }
