@@ -40,6 +40,22 @@ fastify.post("/tasks", async (request, reply) => {
   return task;
 });
 
+fastify.patch("/tasks/:id", async (request, reply) => {
+  const { id } = request.params;
+  const { title, description, time, status } = request.body;
+
+  try {
+    const updatedTask = await prisma.task.update({
+      where: { id },
+      data: { title, description, time, status },
+    });
+
+    return updatedTask;
+  } catch (error) {
+    reply.status(404).send({ error: "Tarefa não encontrada" });
+  }
+});
+
 fastify.get("/water-hydration", async (request, reply) => {
   const records = await prisma.waterHydration.findMany();
   return records;
