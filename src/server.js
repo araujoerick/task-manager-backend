@@ -60,6 +60,20 @@ fastify.patch("/tasks/:id", async (request, reply) => {
   }
 });
 
+fastify.delete("/tasks/:id", async (request, reply) => {
+  const { id } = request.params;
+
+  try {
+    const deletedTask = await prisma.task.delete({
+      where: { id },
+    });
+
+    return deletedTask;
+  } catch (error) {
+    reply.status(404).send({ error: "Tarefa não encontrada" });
+  }
+});
+
 fastify.get("/water-hydration", async (request, reply) => {
   const records = await prisma.waterHydration.findMany();
   return records;
