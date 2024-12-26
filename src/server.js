@@ -89,6 +89,18 @@ fastify.post("/water-hydration", async (request, reply) => {
   return record;
 });
 
+cron.schedule("0 0 * * *", async () => {
+  try {
+    await prisma.waterHydration.update({
+      where: { id: "temp-fixed-id" },
+      data: { liters: 0 },
+    });
+    console.log("Liters value reset to 0 at midnight");
+  } catch (error) {
+    console.error("Error resetting liters value:", error);
+  }
+});
+
 const start = async () => {
   try {
     await fastify.listen({ port: 3100 });
