@@ -10,7 +10,11 @@ await fastify.register(cors, {
 });
 
 fastify.get("/tasks", async (request, reply) => {
-  const tasks = await prisma.task.findMany();
+  const tasks = await prisma.task.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   return tasks;
 });
 
