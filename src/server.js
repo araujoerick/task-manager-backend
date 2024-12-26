@@ -81,8 +81,10 @@ fastify.get("/water-hydration", async (request, reply) => {
 
 fastify.post("/water-hydration", async (request, reply) => {
   const { liters } = request.body;
-  const record = await prisma.waterHydration.create({
-    data: { liters },
+  const record = await prisma.waterHydration.upsert({
+    where: { id: "temp-fixed-id" },
+    update: { liters },
+    create: { id: "temp-fixed-id", liters },
   });
   return record;
 });
