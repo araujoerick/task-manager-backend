@@ -8,7 +8,7 @@ const fastify = Fastify({ logger: true });
 const prisma = new PrismaClient();
 
 await fastify.register(cors, {
-  origin: ["http://localhost:5173"],
+  origin: "*",
 });
 
 const taskSchema = z.object({
