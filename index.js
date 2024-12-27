@@ -114,12 +114,11 @@ cron.schedule("0 0 * * *", async () => {
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3100 });
-    fastify.log.info(`Server listening on http://localhost:3100`);
+    const port = process.env.PORT || 3100;
+    await fastify.listen({ port });
+    fastify.log.info(`Server listening on http://localhost:${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
   }
 };
-
-start();
