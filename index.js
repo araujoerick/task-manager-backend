@@ -18,6 +18,10 @@ const taskSchema = z.object({
   status: z.enum(["not_started", "in_progress", "done"]).default("not_started"),
 });
 
+fastify.get("/", async () => {
+  return { message: "API is running!" };
+});
+
 fastify.get("/tasks", async () => {
   return await prisma.task.findMany({
     orderBy: { createdAt: "desc" },
@@ -115,8 +119,9 @@ cron.schedule("0 0 * * *", async () => {
 const start = async () => {
   try {
     const port = process.env.PORT || 3100;
-    await fastify.listen({ port });
-    fastify.log.info(`Server listening on http://localhost:${port}`);
+    const host = "0.0.0.0";
+    await fastify.listen({ port, host });
+    fastify.log.info(`Server listening on http://${host}:${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
