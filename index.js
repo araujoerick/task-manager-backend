@@ -106,7 +106,7 @@ fastify.post("/water-hydration", async (request, reply) => {
   return record;
 });
 
-cron.schedule("0 0 * * *", async () => {
+cron.schedule("0 3 * * *", async () => {
   try {
     await prisma.waterHydration.update({
       where: { id: "temp-fixed-id" },
