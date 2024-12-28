@@ -8,7 +8,9 @@ const fastify = Fastify({ logger: true });
 const prisma = new PrismaClient();
 
 await fastify.register(cors, {
-  origin: "*",
+  origin: ["https://task-manager-araujo.vercel.app"],
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
 });
 
 const taskSchema = z.object({
